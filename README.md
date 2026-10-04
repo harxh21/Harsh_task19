@@ -13,6 +13,7 @@ Browse services one by one, skip or add them to the cart, and book with your det
 - `index.html` - structure
 - `style.css` - styling
 - `script.js` - DOM logic
+- `images/` - SVG illustrations for each service
 
 ## How to run
 Open `index.html` in any browser.

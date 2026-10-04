@@ -1,11 +1,11 @@
 // 1. Data
 const services = [
-  { id: 1, name: "Dry Cleaning", price: 200, icon: "🧺" },
-  { id: 2, name: "Home Cleaning", price: 499, icon: "🧹" },
-  { id: 3, name: "AC Repair", price: 699, icon: "❄️" },
-  { id: 4, name: "Plumbing", price: 399, icon: "🔧" },
-  { id: 5, name: "Electrician", price: 349, icon: "💡" },
-  { id: 6, name: "Pest Control", price: 599, icon: "🐜" }
+  { id: 1, name: "Dry Cleaning", price: 200, image: "images/dry-cleaning.svg" },
+  { id: 2, name: "Home Cleaning", price: 499, image: "images/home-cleaning.svg" },
+  { id: 3, name: "AC Repair", price: 699, image: "images/ac-repair.svg" },
+  { id: 4, name: "Plumbing", price: 399, image: "images/plumbing.svg" },
+  { id: 5, name: "Electrician", price: 349, image: "images/electrician.svg" },
+  { id: 6, name: "Pest Control", price: 599, image: "images/pest-control.svg" }
 ];
 
 let cart = [];     // chuni hui services
@@ -15,7 +15,7 @@ let current = 0;   // abhi right side me kaunsi service dikh rahi hai
 const cartBody = document.getElementById("cartBody");
 const emptyState = document.getElementById("emptyState");
 const totalEl = document.getElementById("total");
-const serviceIcon = document.getElementById("serviceIcon");
+const serviceImage = document.getElementById("serviceImage");
 const serviceName = document.getElementById("serviceName");
 const servicePrice = document.getElementById("servicePrice");
 const skipBtn = document.getElementById("skipBtn");
@@ -29,7 +29,8 @@ const bookBtn = document.getElementById("bookBtn");
 // 3. Right side: current service dikhana
 function showService() {
   const s = services[current];
-  serviceIcon.textContent = s.icon;
+  serviceImage.src = s.image;
+  serviceImage.alt = s.name;
   serviceName.textContent = s.name;
   servicePrice.textContent = "₹" + s.price.toFixed(2);
 
