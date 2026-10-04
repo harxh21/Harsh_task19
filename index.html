@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Booking App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <h2 class="brand">ServiceHub</h2>
+    <div class="nav-right">Cart: <span id="cartCount">0</span></div>
+  </nav>
+
+  <main class="layout">
+    <section class="cart-section">
+      <h2>Added Items</h2>
+      <p id="emptyMsg">No services added yet.</p>
+      <ul id="cartList"></ul>
+      <div class="total">Total: <span id="total">₹0</span></div>
+      <button id="bookBtn" disabled>Book Now</button>
+    </section>
+
+    <section class="services-section">
+      <h2>Available Services</h2>
+      <div id="serviceList" class="service-grid"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
