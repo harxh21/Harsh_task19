@@ -1,16 +1,18 @@
 # harsh_task19 - Service Booking Web App (JS DOM)
 
-A web app to browse services, add them to a cart and book them.
+Browse services one by one, skip or add them to the cart, and book with your details.
 
 ## Features
-- Navigation bar with live cart count
-- Left section: added items, remove option, total price, Book Now button
-- Right section: available services with Add button
-- Duplicate services are blocked
-- Book Now confirms the booking and clears the cart
+- Navbar with logo, links and username pill
+- Added Items table (S.No, Service Name, Price) with remove option and total amount
+- Book Now form with validation (name, email, 10-digit phone); disabled until the cart has items
+- Browse section shows one service at a time: Skip Item / Add Item
+- Duplicate services are blocked ("Added" state)
 
 ## Files
 - `index.html` - structure
-- `style.css` - layout and styling
-- `script.js` - DOM logic (render, add, remove, book)
+- `style.css` - styling
+- `script.js` - DOM logic
 
+## How to run
+Open `index.html` in any browser.

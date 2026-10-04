@@ -8,22 +8,68 @@
 </head>
 <body>
   <nav class="navbar">
-    <h2 class="brand">ServiceHub</h2>
-    <div class="nav-right">Cart: <span id="cartCount">0</span></div>
+    <div class="logo">Logo</div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Contact Us</a></li>
+      <li><a href="#">About Us</a></li>
+    </ul>
+    <div class="user-pill"><span class="user-name">Username</span><span class="logout">&#10162;</span></div>
   </nav>
 
   <main class="layout">
-    <section class="cart-section">
-      <h2>Added Items</h2>
-      <p id="emptyMsg">No services added yet.</p>
-      <ul id="cartList"></ul>
-      <div class="total">Total: <span id="total">₹0</span></div>
-      <button id="bookBtn" disabled>Book Now</button>
-    </section>
+    <div class="left">
+      <section class="card">
+        <h2 class="card-title">Added Items</h2>
+        <table class="cart-table">
+          <thead>
+            <tr><th>S.No</th><th>Service Name</th><th>Price</th><th></th></tr>
+          </thead>
+          <tbody id="cartBody"></tbody>
+        </table>
+        <div id="emptyState" class="empty-state">
+          <div class="info-icon">i</div>
+          <p class="empty-title">No Items Added</p>
+          <p class="empty-sub">Add items to the cart from the services bar</p>
+        </div>
+        <div class="total-row"><span>Total Amount</span><span id="total">&#8377; 0</span></div>
+      </section>
 
-    <section class="services-section">
-      <h2>Available Services</h2>
-      <div id="serviceList" class="service-grid"></div>
+      <section class="card book-card">
+        <h3>Book Now</h3>
+        <label for="fullName">Full Name</label>
+        <input id="fullName" type="text" placeholder="John Doe">
+        <div class="row">
+          <div>
+            <label for="email">Email ID</label>
+            <input id="email" type="email" placeholder="mailid@gmail.com">
+          </div>
+          <div>
+            <label for="phone">Phone Number</label>
+            <input id="phone" type="tel" placeholder="0000000000" maxlength="10">
+          </div>
+        </div>
+        <p id="formMsg" class="form-msg"></p>
+        <button id="bookBtn" disabled>Book now</button>
+      </section>
+    </div>
+
+    <section class="card services-card">
+      <h2 class="section-title">Browse Our Services</h2>
+      <p class="muted">Click on the add to cart button to add the services to your cart or press skip</p>
+      <hr>
+      <div class="illustration"><span id="serviceIcon"></span></div>
+      <div class="service-row">
+        <h3 id="serviceName"></h3>
+        <span id="servicePrice" class="price"></span>
+      </div>
+      <div class="actions">
+        <button id="skipBtn" class="skip">Skip Item &#8854;</button>
+        <button id="addBtn" class="add">Add Item &#8853;</button>
+      </div>
+      <hr>
+      <p class="hint"><span class="mini-i">i</span> Add the items to the cart and book now</p>
     </section>
   </main>
 

@@ -1,70 +1,60 @@
-// 1. Data: available services
+// 1. Data
 const services = [
-  { id: 1, name: "Home Cleaning", price: 499 },
-  { id: 2, name: "AC Repair", price: 699 },
-  { id: 3, name: "Plumbing", price: 399 },
-  { id: 4, name: "Electrician", price: 349 },
-  { id: 5, name: "Salon at Home", price: 799 },
-  { id: 6, name: "Pest Control", price: 599 }
+  { id: 1, name: "Dry Cleaning", price: 200, icon: "🧺" },
+  { id: 2, name: "Home Cleaning", price: 499, icon: "🧹" },
+  { id: 3, name: "AC Repair", price: 699, icon: "❄️" },
+  { id: 4, name: "Plumbing", price: 399, icon: "🔧" },
+  { id: 5, name: "Electrician", price: 349, icon: "💡" },
+  { id: 6, name: "Pest Control", price: 599, icon: "🐜" }
 ];
 
-// 2. Cart: selected services yahan store honge
-let cart = [];
+let cart = [];     // chuni hui services
+let current = 0;   // abhi right side me kaunsi service dikh rahi hai
 
-// 3. DOM elements
-const serviceList = document.getElementById("serviceList");
-const cartList = document.getElementById("cartList");
-const emptyMsg = document.getElementById("emptyMsg");
+// 2. DOM elements
+const cartBody = document.getElementById("cartBody");
+const emptyState = document.getElementById("emptyState");
 const totalEl = document.getElementById("total");
-const cartCount = document.getElementById("cartCount");
+const serviceIcon = document.getElementById("serviceIcon");
+const serviceName = document.getElementById("serviceName");
+const servicePrice = document.getElementById("servicePrice");
+const skipBtn = document.getElementById("skipBtn");
+const addBtn = document.getElementById("addBtn");
+const fullName = document.getElementById("fullName");
+const email = document.getElementById("email");
+const phone = document.getElementById("phone");
+const formMsg = document.getElementById("formMsg");
 const bookBtn = document.getElementById("bookBtn");
 
-// 4. Right side: services ke cards banana
-function renderServices() {
-  serviceList.innerHTML = "";
+// 3. Right side: current service dikhana
+function showService() {
+  const s = services[current];
+  serviceIcon.textContent = s.icon;
+  serviceName.textContent = s.name;
+  servicePrice.textContent = "₹" + s.price.toFixed(2);
 
-  services.forEach(function (service) {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    const title = document.createElement("h3");
-    title.textContent = service.name;
-
-    const price = document.createElement("p");
-    price.textContent = "₹" + service.price;
-
-    const btn = document.createElement("button");
-    btn.className = "add-btn";
-    btn.textContent = "Add";
-    btn.addEventListener("click", function () {
-      addToCart(service.id);
-    });
-
-    card.append(title, price, btn);
-    serviceList.appendChild(card);
+  const inCart = cart.some(function (item) {
+    return item.id === s.id;
   });
+  addBtn.disabled = inCart;
+  addBtn.textContent = inCart ? "Added ✓" : "Add Item ⊕";
 }
 
-// 5. Cart me service add karna
-function addToCart(id) {
-  const alreadyAdded = cart.some(function (item) {
-    return item.id === id;
-  });
+// 4. Agli service par jaana (last ke baad wapas pehli)
+function nextService() {
+  current = (current + 1) % services.length;
+  showService();
+}
 
-  if (alreadyAdded) {
-    alert("This service is already added!");
-    return;
-  }
-
-  const service = services.find(function (s) {
-    return s.id === id;
-  });
-
-  cart.push(service);
+// 5. Current service ko cart me daalna
+function addCurrent() {
+  cart.push(services[current]);
+  setMessage("", true);
   renderCart();
+  nextService();
 }
 
-// 6. Cart se service hatana
+// 6. Cart se hatana
 function removeFromCart(id) {
   cart = cart.filter(function (item) {
     return item.id !== id;
@@ -72,49 +62,82 @@ function removeFromCart(id) {
   renderCart();
 }
 
-// 7. Left side: cart ko screen pe dikhana
+// 7. Table ki ek cell banane ka helper
+function makeCell(text) {
+  const td = document.createElement("td");
+  td.textContent = text;
+  return td;
+}
+
+// 8. Left side: cart table dobara banana
 function renderCart() {
-  cartList.innerHTML = "";
+  cartBody.innerHTML = "";
 
-  cart.forEach(function (item) {
-    const li = document.createElement("li");
+  cart.forEach(function (item, index) {
+    const tr = document.createElement("tr");
+    tr.append(makeCell(index + 1), makeCell(item.name), makeCell("₹ " + item.price));
 
-    const info = document.createElement("span");
-    info.textContent = item.name + " - ₹" + item.price;
-
+    const td = document.createElement("td");
     const removeBtn = document.createElement("button");
     removeBtn.className = "remove-btn";
-    removeBtn.textContent = "Remove";
+    removeBtn.textContent = "✕";
     removeBtn.addEventListener("click", function () {
       removeFromCart(item.id);
     });
+    td.appendChild(removeBtn);
+    tr.appendChild(td);
 
-    li.append(info, removeBtn);
-    cartList.appendChild(li);
+    cartBody.appendChild(tr);
   });
 
   const total = cart.reduce(function (sum, item) {
     return sum + item.price;
   }, 0);
 
-  totalEl.textContent = "₹" + total;
-  cartCount.textContent = cart.length;
-  emptyMsg.style.display = cart.length === 0 ? "block" : "none";
+  totalEl.textContent = "₹ " + total;
+  emptyState.style.display = cart.length === 0 ? "block" : "none";
   bookBtn.disabled = cart.length === 0;
+  showService();
 }
 
-// 8. Booking confirm karna
+// 9. Form ke neeche message dikhana
+function setMessage(text, ok) {
+  formMsg.textContent = text;
+  formMsg.className = "form-msg " + (ok ? "success" : "error");
+}
+
+// 10. Booking: validation + confirm
 function bookServices() {
-  const names = cart.map(function (item) {
-    return item.name;
-  }).join(", ");
+  const nameVal = fullName.value.trim();
+  const emailVal = email.value.trim();
+  const phoneVal = phone.value.trim();
 
-  alert("Booking confirmed for: " + names + "\nTotal: " + totalEl.textContent);
+  if (nameVal === "") {
+    setMessage("Please enter your full name.", false);
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+    setMessage("Please enter a valid email ID.", false);
+    return;
+  }
+  if (!/^\d{10}$/.test(phoneVal)) {
+    setMessage("Phone number must be 10 digits.", false);
+    return;
+  }
+
+  const total = totalEl.textContent;
+  const count = cart.length;
+
   cart = [];
+  fullName.value = "";
+  email.value = "";
+  phone.value = "";
   renderCart();
+  setMessage("Thank you " + nameVal + "! " + count + " service(s) booked. Total: " + total, true);
 }
 
-// 9. Events + initial render
+// 11. Events + start
+skipBtn.addEventListener("click", nextService);
+addBtn.addEventListener("click", addCurrent);
 bookBtn.addEventListener("click", bookServices);
-renderServices();
 renderCart();
